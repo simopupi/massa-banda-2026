@@ -1,2 +1,62 @@
 # massa-banda-2026
 Classifica
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Classifica MASSA-BANDA</title>
+<style>
+body { font-family: Arial, sans-serif; background:#111; color:#fff; text-align:center; }
+table { margin:auto; border-collapse: collapse; width:90%; max-width:800px; }
+th, td { border:1px solid #555; padding:8px; }
+th { background:#222; }
+input { width:50px; text-align:center; }
+.finalista { background:#2a7fff; }
+</style>
+</head>
+<body>
+
+<h1>🎶 MASSA-BANDA 🎶</h1>
+<h2>Classifica</h2>
+
+<table>
+<thead>
+<tr>
+<th>Pos</th><th>Squadra</th>
+<th>P1</th><th>P2</th><th>P3</th><th>P4</th>
+<th>Finale</th><th>Tot</th>
+</tr>
+</thead>
+<tbody id="body"></tbody>
+</table>
+
+<script>
+let teams=[
+{name:"Squadra 1",p:[0,0,0,0],f:0},
+{name:"Squadra 2",p:[0,0,0,0],f:0},
+{name:"Squadra 3",p:[0,0,0,0],f:0},
+{name:"Squadra 4",p:[0,0,0,0],f:0},
+{name:"Squadra 5",p:[0,0,0,0],f:0}
+];
+
+function draw(){
+teams.forEach(t=>t.t=t.p.reduce((a,b)=>a+b,0)+t.f);
+teams.sort((a,b)=>b.t-a.t);
+const b=document.getElementById("body");
+b.innerHTML="";
+teams.forEach((t,i)=>{
+b.innerHTML+=`
+<tr class="${i<2?'finalista':''}">
+<td>${i+1}</td>
+<td contenteditable>${t.name}</td>
+${t.p.map((v,j)=>`<td><input value="${v}" type="number" onchange="teams[${i}].p[${j}]=+this.value;draw()"></td>`).join("")}
+<td><input value="${t.f}" type="number" onchange="teams[${i}].f=+this.value;draw()"></td>
+<td><b>${t.t}</b></td>
+</tr>`;
+});
+}
+draw();
+</script>
+
+</body>
+</html>
